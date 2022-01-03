@@ -23,4 +23,5 @@ usersRoutes.get("/", (request, response) =>
   listAllUsersController.handle(request, response)
 );
 
+
 export { usersRoutes };
