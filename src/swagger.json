@@ -1,0 +1,170 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "User Finder",
+        "description": "This is a API for user management",
+        "version": "1.0.0",
+        "contact": {
+            "email":"klaudio.kumbula@gmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags":["Users"],
+                "summary":"Creates a new user",
+                "description": "Creates a new user",
+                "requestBody": {
+                    "content": {
+                        "application/json": {                        
+                            "schema": {
+                                "type": "object",                              
+                                "properties": {
+                                    "name": {
+                                        "description": "Provide a name for the user",
+                                        "type": "string"                                                                                                        
+                                    },
+                                    "email": {
+                                        "description": "Provide an email for the user",
+                                        "type": "string"                               
+                                    }
+                                },
+                                "required": ["name","email"],
+                                "example": {
+                                    "name": "user name example",
+                                    "email": "username@example.com"
+                                }
+                            }
+                        }
+
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "Created"
+                    },
+                    "400":{
+                        "description": "Email already exist"
+                    }
+                }
+            },
+            "get":{
+                "tags": ["Users"],
+                "summary": "List all users",
+                "description": "Must be an admin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",              
+                        "description": "User id to be passed as a header",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success"
+                    },
+                    "400":{
+                        "description": "Access Denied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"                                 
+                                            },
+                                            "email":{
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get":{
+                "tags": ["Users"],
+                "summary": "Get a specific user",
+                "description": "Get a specific user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",              
+                        "description": "User id to be passed as a path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success"
+                    },
+                    "404":{
+                        "description": "User not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "name": {
+                                                "type": "string"                                 
+                                            },
+                                            "email":{
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch":{
+                "tags": ["Users"],
+                "summary": "Make an admin",
+                "description": "Make an admin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",              
+                        "description": "User id to be passed as a path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "success"
+                    },
+                    "404":{
+                        "description": "User not found"
+                    }
+                }
+
+            }
+        }
+    }
+}
